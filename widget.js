@@ -8,8 +8,8 @@
      ========================================================================== */
   const CONFIG = {
     // API Placeholders - Empty strings by default as requested
-    API_CHAT_URL: "https://n8n.srv1084037.hstgr.cloud/webhook-test/cb02bb42-8842-48a9-b631-dc1d3d5aebde",
-    API_LEAD_URL: "https://n8n.srv1084037.hstgr.cloud/webhook-test/7387082c-a072-4b6a-8364-7876b2a60045",
+    API_CHAT_URL: "https://n8n.srv1084037.hstgr.cloud/webhook/cb02bb42-8842-48a9-b631-dc1d3d5aebde",
+    API_LEAD_URL: "https://n8n.srv1084037.hstgr.cloud/webhook/cb02bb42-8842-48a9-b631-dc1d3d5aebde",
 
     // UI Config
     TITLE: "Three Royals Media Support",
