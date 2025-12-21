@@ -144,9 +144,9 @@
     /* Chat Panel */
     .trm-panel {
       pointer-events: auto;
-      width: 380px;
-      height: 600px;
-      max-height: calc(100vh - 120px);
+      width: 350px;
+      height: 550px;
+      max-height: calc(100vh - 100px);
       max-width: calc(100vw - 40px);
       background: var(--trm-bg);
       border-radius: 16px;
@@ -740,26 +740,43 @@
         ai?.text ??
         null;
 
-      const leaveFlag =
+      let leaveFlag =
         ai?.["Leave Message"] ??
         ai?.leaveMessage ??
         ai?.leave_message ??
         false;
 
-      if (!botText || typeof botText !== "string") {
+      // Normalize boolean (handle string "true" from some backends)
+      if (typeof leaveFlag === 'string') {
+        leaveFlag = leaveFlag.toLowerCase() === 'true';
+      }
+
+      // Logic: Show text if present. If not, only show error if also NOT showing form.
+      let messageShown = false;
+
+      if (botText && typeof botText === "string") {
+        addMessage({ text: botText, type: "bot" });
+        messageShown = true;
+      }
+
+      // If AI says to collect details (relaxed check: truthy)
+      if (leaveFlag) {
+        // If no text was sent by AI, provide a courteous default transition
+        if (!messageShown) {
+          addMessage({ text: "Please provide your details below so we can assist you better:", type: "bot" });
+        }
+        setTimeout(() => handleShowLeadForm(), 400);
+        return; // Success path (form triggered)
+      }
+
+      // If no text and no form, then it's an error
+      if (!messageShown) {
         addMessage({
-          text: "Sorry — I’m not getting a reply right now. Please try again, or tap ‘Leave a message’ so our team can follow up.",
+          text: "Sorry, I’m not getting a reply right now. Please try again, or tap ‘Leave a message’ so our team can follow up.",
           type: "bot",
         });
-        return;
       }
 
-      addMessage({ text: botText, type: "bot" });
-
-      // If AI says to collect details, open the lead form
-      if (leaveFlag === true) {
-        setTimeout(() => handleShowLeadForm(), 400);
-      }
     } catch (err) {
       console.error("Error in handleUserMessage:", err);
       stopTypingIndicator();
@@ -917,7 +934,7 @@
 
       localFakeTyping(600).then(() => {
         addMessage({
-          text: "Thanks — we’ve received your message and will follow up soon.",
+          text: "Thank, we’ve received your message and will follow up soon.",
           type: 'bot'
         });
         sendLeadToBackend(data);
