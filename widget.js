@@ -722,16 +722,36 @@
     // Call n8n and WAIT for the response
     const ai = await sendChatToBackend(text, STATE.messages, window.location.href);
 
-    // If backend fails or returns invalid JSON
-    if (!ai || typeof ai.Message !== 'string') {
+    // Accept multiple possible key names from n8n
+    const botText =
+      ai?.Message ??
+      ai?.message ??
+      ai?.reply ??
+      ai?.output ??
+      ai?.text ??
+      null;
+
+    const leaveFlag =
+      ai?.["Leave Message"] ??
+      ai?.leaveMessage ??
+      ai?.leave_message ??
+      false;
+
+    if (!botText || typeof botText !== "string") {
       addMessage({
-        text: "Sorry — I’m having trouble connecting right now. Please try again, or leave a message and our team will follow up.",
-        type: 'bot'
+        text: "Sorry — I’m not getting a reply right now. Please try again, or tap ‘Leave a message’ so our team can follow up.",
+        type: "bot",
       });
-      // Optional: auto-open lead form on failure
-      // handleShowLeadForm();
       return;
     }
+
+    addMessage({ text: botText, type: "bot" });
+
+    // If AI says to collect details, open the lead form
+    if (leaveFlag === true) {
+      setTimeout(() => handleShowLeadForm(), 400);
+    }
+
 
     // Show AI reply
     addMessage({ text: ai.Message, type: 'bot' });
@@ -1310,36 +1330,51 @@
     if (!url) return null;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
     try {
       const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-        signal: controller.signal
+        signal: controller.signal,
       });
 
-      // If server did not return JSON, fallback safely
-      const contentType = res.headers.get('content-type') || '';
-      const isJson = contentType.includes('application/json');
-
-      const data = isJson ? await res.json() : await res.text();
+      const contentType = (res.headers.get("content-type") || "").toLowerCase();
+      const raw = contentType.includes("application/json")
+        ? await res.json()
+        : await res.text();
 
       if (!res.ok) {
-        console.error('n8n response not OK:', res.status, data);
+        console.error("n8n response not OK:", res.status, raw);
         return null;
       }
 
-      // Expecting: { "SessionID": "...", "Message": "...", "Leave Message": false }
-      return typeof data === 'object' ? data : null;
+      // n8n often responds as: [{...}] when "All Incoming Items"
+      if (Array.isArray(raw)) return raw[0] || null;
+
+      // If it came back as text but is actually JSON, parse it
+      if (typeof raw === "string") {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed[0] || null;
+          if (parsed && typeof parsed === "object") return parsed;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      if (raw && typeof raw === "object") return raw;
+
+      return null;
     } catch (e) {
-      console.error('Backend request failed:', e);
+      console.error("Backend request failed:", e);
       return null;
     } finally {
       clearTimeout(timeout);
     }
   }
+
 
   async function sendChatToBackend(message, transcript, pageUrl) {
     if (!CONFIG.API_CHAT_URL) return null;
