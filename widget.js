@@ -752,10 +752,6 @@
       setTimeout(() => handleShowLeadForm(), 400);
     }
 
-
-    // Show AI reply
-    addMessage({ text: ai.Message, type: 'bot' });
-
     // If AI says it can't answer, open Leave Message form
     if (ai["Leave Message"] === true) {
       // Small delay so the user sees the AI response first
