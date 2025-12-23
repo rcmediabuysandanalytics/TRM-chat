@@ -8,8 +8,8 @@
      ========================================================================== */
   const CONFIG = {
     // API Placeholders - Empty strings by default as requested
-    API_CHAT_URL: "https://trm-chat-test.vercel.app/api/chat",
-    API_LEAD_URL: "https://trm-chat-test.vercel.app/api/lead",
+    API_CHAT_URL: "https://trm-chat.vercel.app/api/chat", // change this to TRM-chat vercel if already available
+    API_LEAD_URL: "https://trm-chat.vercel.app/api/lead", // change this to TRM-chat vercel if already available
 
     // UI Config
     TITLE: "Three Royals Media Support",
