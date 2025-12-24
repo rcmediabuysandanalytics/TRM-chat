@@ -1,18 +1,18 @@
-﻿(function () {
+(function () {
   // Prevent duplicate injections
-  if (window.__PRYCE_CHAT_WIDGET__) return;
-  window.__PRYCE_CHAT_WIDGET__ = true;
+  if (window.__TRM_CHAT_WIDGET__) return;
+  window.__TRM_CHAT_WIDGET__ = true;
 
   /* ==========================================================================
      CONFIGURATION
      ========================================================================== */
   const CONFIG = {
     // API Placeholders - Empty strings by default as requested
-    API_CHAT_URL: "https://pryce-financial-chat.vercel.app/api/chat", // change this to pryce-chat vercel if already available
-    API_LEAD_URL: "https://pryce-financial-chat.vercel.app/api/lead", // change this to pryce-chat vercel if already available
+    API_CHAT_URL: "https://trm-chat.vercel.app/api/chat", // change this to TRM-chat vercel if already available
+    API_LEAD_URL: "https://trm-chat.vercel.app/api/lead", // change this to TRM-chat vercel if already available
 
     // UI Config
-    TITLE: "Pryce Financial Support",
+    TITLE: "Three Royals Media Support",
     WELCOME_MSG: "Hi there! 👋 How can we help you today?",
     FAQ_TOPICS: [
       "Pricing & Plans",
@@ -21,15 +21,15 @@
       "Contact Sales"
     ],
     THEME: {
-      primary: "#10304F",       // Royal Gold
-      primaryHover: "#0D253D",  // Darker Gold
-      bg: "#FFFFFF",            // Dark Gray (Almost Black)
-      text: "#1F2937",          // White
-      textLight: "#6B7280",     // Gray-400
-      border: "#E5E7EB",        // Gray-700
-      userMsgBg: "#10304F",     // Gold
-      userMsgText: "#FFFFFF",   // Black text on Gold
-      botMsgBg: "#F3F4F6",      // Gray-800
+      primary: "#D4AF37",       // Royal Gold
+      primaryHover: "#B5952F",  // Darker Gold
+      bg: "#111827",            // Dark Gray (Almost Black)
+      text: "#FFFFFF",          // White
+      textLight: "#9CA3AF",     // Gray-400
+      border: "#374151",        // Gray-700
+      userMsgBg: "#D4AF37",     // Gold
+      userMsgText: "#000000",   // Black text on Gold
+      botMsgBg: "#1F2937",      // Gray-800
       botMsgText: "#F3F4F6"     // Gray-100
     }
   };
@@ -81,28 +81,28 @@
      ========================================================================== */
   const STYLES = `
     :root {
-      --pryce-primary: ${CONFIG.THEME.primary};
-      --pryce-primary-hover: ${CONFIG.THEME.primaryHover};
-      --pryce-bg: ${CONFIG.THEME.bg};
-      --pryce-text: ${CONFIG.THEME.text};
-      --pryce-text-light: ${CONFIG.THEME.textLight};
-      --pryce-border: ${CONFIG.THEME.border};
-      --pryce-user-bg: ${CONFIG.THEME.userMsgBg};
-      --pryce-user-text: ${CONFIG.THEME.userMsgText};
-      --pryce-bot-bg: ${CONFIG.THEME.botMsgBg};
-      --pryce-bot-text: ${CONFIG.THEME.botMsgText};
-      --pryce-font: 'Inter', system-ui, -apple-system, sans-serif;
-      --pryce-z-index: 2147483647; /* Max safe integer */
+      --trm-primary: ${CONFIG.THEME.primary};
+      --trm-primary-hover: ${CONFIG.THEME.primaryHover};
+      --trm-bg: ${CONFIG.THEME.bg};
+      --trm-text: ${CONFIG.THEME.text};
+      --trm-text-light: ${CONFIG.THEME.textLight};
+      --trm-border: ${CONFIG.THEME.border};
+      --trm-user-bg: ${CONFIG.THEME.userMsgBg};
+      --trm-user-text: ${CONFIG.THEME.userMsgText};
+      --trm-bot-bg: ${CONFIG.THEME.botMsgBg};
+      --trm-bot-text: ${CONFIG.THEME.botMsgText};
+      --trm-font: 'Inter', system-ui, -apple-system, sans-serif;
+      --trm-z-index: 2147483647; /* Max safe integer */
     }
 
     /* Container Reset */
-    #pryce-widget-container {
-      font-family: var(--pryce-font);
+    #trm-widget-container {
+      font-family: var(--trm-font);
       box-sizing: border-box;
       position: fixed;
       bottom: 20px;
       right: 20px;
-      z-index: var(--pryce-z-index);
+      z-index: var(--trm-z-index);
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -111,18 +111,18 @@
       line-height: 1.5;
     }
 
-    #pryce-widget-container * {
+    #trm-widget-container * {
       box-sizing: border-box;
       outline: none;
     }
 
     /* Launcher Button */
-    .pryce-launcher {
+    .trm-launcher {
       pointer-events: auto;
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background-color: var(--pryce-primary);
+      background-color: var(--trm-primary);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       cursor: pointer;
       display: flex;
@@ -134,16 +134,16 @@
       position: relative;
     }
 
-    .pryce-launcher:hover {
-      background-color: var(--pryce-primary-hover);
+    .trm-launcher:hover {
+      background-color: var(--trm-primary-hover);
       transform: scale(1.05);
     }
 
-    .pryce-launcher:active {
+    .trm-launcher:active {
       transform: scale(0.95);
     }
 
-    .pryce-launcher-icon {
+    .trm-launcher-icon {
       width: 28px;
       height: 28px;
       fill: white;
@@ -151,46 +151,46 @@
       position: absolute;
     }
 
-    .pryce-launcher.pryce-open .pryce-icon-chat {
+    .trm-launcher.trm-open .trm-icon-chat {
       opacity: 0;
       transform: rotate(90deg) scale(0.5);
     }
 
-    .pryce-launcher.pryce-open .pryce-icon-close {
+    .trm-launcher.trm-open .trm-icon-close {
       opacity: 1;
       transform: rotate(0deg) scale(1);
     }
 
-    .pryce-icon-close {
+    .trm-icon-close {
       opacity: 0;
       transform: rotate(-90deg) scale(0.5);
     }
 
     /* Pulse Animation */
-    @keyframes pryce-pulse {
+    @keyframes trm-pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
       70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
       100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
     }
 
-    .pryce-launcher.pryce-pulse:not(.pryce-open) {
-      animation: pryce-pulse 2s infinite;
+    .trm-launcher.trm-pulse:not(.trm-open) {
+      animation: trm-pulse 2s infinite;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .pryce-launcher.pryce-pulse {
+      .trm-launcher.trm-pulse {
         animation: none;
       }
     }
 
     /* Chat Panel */
-    .pryce-panel {
+    .trm-panel {
       pointer-events: auto;
       width: 350px;
       height: 550px;
       max-height: calc(100vh - 100px);
       max-width: calc(100vw - 40px);
-      background: var(--pryce-bg);
+      background: var(--trm-bg);
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
       display: flex;
@@ -206,32 +206,32 @@
       right: 0;
     }
 
-    .pryce-panel.pryce-visible {
+    .trm-panel.trm-visible {
       opacity: 1;
       transform: translateY(0) scale(1);
       visibility: visible;
     }
 
     /* Header */
-    .pryce-header {
-      background: var(--pryce-bg);
+    .trm-header {
+      background: var(--trm-bg);
       padding: 16px 20px;
-      border-bottom: 1px solid var(--pryce-border);
+      border-bottom: 1px solid var(--trm-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
     }
 
-    .pryce-title {
+    .trm-title {
       font-weight: 600;
       font-size: 16px;
-      color: var(--pryce-text);
+      color: var(--trm-text);
       margin: 0;
     }
 
     /* Messages Area */
-    .pryce-messages {
+    .trm-messages {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
@@ -242,80 +242,80 @@
       scroll-behavior: smooth;
     }
 
-    .pryce-message {
+    .trm-message {
       max-width: 85%;
       padding: 10px 14px;
       border-radius: 12px;
       font-size: 14px;
       line-height: 1.4;
       position: relative;
-      animation: pryce-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: trm-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
       transform: translateY(10px);
       word-wrap: break-word;
     }
 
-    @keyframes pryce-fade-up {
+    @keyframes trm-fade-up {
       to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .pryce-message { animation: none; opacity: 1; transform: none; }
+      .trm-message { animation: none; opacity: 1; transform: none; }
     }
 
-    .pryce-message.pryce-bot {
-      background: var(--pryce-bot-bg);
-      color: var(--pryce-bot-text);
+    .trm-message.trm-bot {
+      background: var(--trm-bot-bg);
+      color: var(--trm-bot-text);
       align-self: flex-start;
       border-bottom-left-radius: 2px;
     }
 
-    .pryce-message.pryce-user {
-      background: var(--pryce-user-bg);
-      color: var(--pryce-user-text);
+    .trm-message.trm-user {
+      background: var(--trm-user-bg);
+      color: var(--trm-user-text);
       align-self: flex-end;
       border-bottom-right-radius: 2px;
     }
 
     /* Typing Indicator */
-    .pryce-typing {
+    .trm-typing {
       display: flex;
       gap: 4px;
       padding: 12px 16px;
       align-self: flex-start;
-      background: var(--pryce-bot-bg);
+      background: var(--trm-bot-bg);
       border-radius: 12px;
       border-bottom-left-radius: 2px;
       width: fit-content;
     }
 
-    .pryce-dot {
+    .trm-dot {
       width: 6px;
       height: 6px;
       background: #9ca3af;
       border-radius: 50%;
-      animation: pryce-bounce 1.4s infinite ease-in-out both;
+      animation: trm-bounce 1.4s infinite ease-in-out both;
     }
 
-    .pryce-dot:nth-child(1) { animation-delay: -0.32s; }
-    .pryce-dot:nth-child(2) { animation-delay: -0.16s; }
+    .trm-dot:nth-child(1) { animation-delay: -0.32s; }
+    .trm-dot:nth-child(2) { animation-delay: -0.16s; }
 
-    @keyframes pryce-bounce {
+    @keyframes trm-bounce {
       0%, 80%, 100% { transform: scale(0); }
       40% { transform: scale(1); }
     }
 
     /* Chips */
-    .pryce-chips {
+    .trm-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 8px;
     }
 
-    .pryce-chip {
-      background: var(--pryce-primary);
-      border: 1px solid var(--pryce-primary);
+    .trm-chip {
+      background: var(--trm-primary);
+      border: 1px solid var(--trm-primary);
       color: #000000;
       padding: 8px 16px;
       border-radius: 20px;
@@ -327,40 +327,40 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .pryce-chip:hover {
-      background: var(--pryce-primary-hover);
-      border-color: var(--pryce-primary-hover);
+    .trm-chip:hover {
+      background: var(--trm-primary-hover);
+      border-color: var(--trm-primary-hover);
       color: #000000;
       transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     /* Input Area */
-    .pryce-footer {
-      background: var(--pryce-bg);
+    .trm-footer {
+      background: var(--trm-bg);
       padding: 16px; /* 16px to match req */
-      border-top: 1px solid var(--pryce-border);
+      border-top: 1px solid var(--trm-border);
       display: flex;
       gap: 10px;
       flex-shrink: 0;
     }
 
-    .pryce-input {
+    .trm-input {
       flex: 1;
-      border: 1px solid var(--pryce-border);
+      border: 1px solid var(--trm-border);
       border-radius: 20px;
       padding: 10px 16px;
       font-size: 14px;
-      font-family: var(--pryce-font);
+      font-family: var(--trm-font);
       transition: border-color 0.2s;
     }
 
-    .pryce-input:focus {
-      border-color: var(--pryce-primary);
+    .trm-input:focus {
+      border-color: var(--trm-primary);
     }
 
-    .pryce-send-btn {
-      background: var(--pryce-primary);
+    .trm-send-btn {
+      background: var(--trm-primary);
       color: white;
       border: none;
       width: 40px;
@@ -373,11 +373,11 @@
       transition: background-color 0.2s;
     }
 
-    .pryce-send-btn:hover {
-      background: var(--pryce-primary-hover);
+    .trm-send-btn:hover {
+      background: var(--trm-primary-hover);
     }
 
-    .pryce-send-btn svg {
+    .trm-send-btn svg {
       width: 18px;
       height: 18px;
       fill: none;
@@ -389,7 +389,7 @@
     }
 
     /* Lead Form */
-    .pryce-form {
+    .trm-form {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -397,21 +397,21 @@
       width: 100%;
     }
 
-    .pryce-form-field {
+    .trm-form-field {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid var(--pryce-border);
+      border: 1px solid var(--trm-border);
       border-radius: 8px;
-      font-family: var(--pryce-font);
+      font-family: var(--trm-font);
       font-size: 14px;
     }
 
-    .pryce-form-field:focus {
-      border-color: var(--pryce-primary);
+    .trm-form-field:focus {
+      border-color: var(--trm-primary);
     }
 
-    .pryce-form-submit {
-      background: var(--pryce-primary);
+    .trm-form-submit {
+      background: var(--trm-primary);
       color: white;
       border: none;
       padding: 10px;
@@ -421,37 +421,37 @@
       margin-top: 4px;
     }
 
-    .pryce-form-submit:hover {
-      background: var(--pryce-primary-hover);
+    .trm-form-submit:hover {
+      background: var(--trm-primary-hover);
     }
 
-    .pryce-error {
+    .trm-error {
       color: #ef4444;
       font-size: 12px;
       margin-top: -8px;
       display: none;
     }
 
-    .pryce-error.visible {
+    .trm-error.visible {
       display: block;
     }
 
     /* Icons */
-    .pryce-icon-header-close {
+    .trm-icon-header-close {
       cursor: pointer;
       padding: 4px;
       border-radius: 4px;
-      color: var(--pryce-text-light);
+      color: var(--trm-text-light);
       transition: background 0.2s;
       background: none;
       border: none;
     }
-    .pryce-icon-header-close:hover {
-      background: var(--pryce-border);
+    .trm-icon-header-close:hover {
+      background: var(--trm-border);
     }
 
     /* Toast */
-    .pryce-toast {
+    .trm-toast {
       position: absolute;
       bottom: 80px;
       left: 50%;
@@ -463,19 +463,19 @@
       font-size: 14px;
       z-index: 2147483647;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      animation: pryce-fade-in-up 0.3s ease forwards;
+      animation: trm-fade-in-up 0.3s ease forwards;
       text-align: center;
       width: max-content;
       max-width: 90%;
     }
 
-    @keyframes pryce-fade-in-up {
+    @keyframes trm-fade-in-up {
       from { opacity: 0; transform: translate(-50%, 10px); }
       to { opacity: 1; transform: translate(-50%, 0); }
     }
 
     /* Disabled State */
-    .pryce-disabled {
+    .trm-disabled {
       opacity: 0.5;
       cursor: not-allowed !important;
       pointer-events: none; /* Block clicks on chips */
@@ -486,39 +486,39 @@
        However, simplified approach: if input is "disabled" via class but not attribute, 
        we can capture click. We will NOT put pointer-events: none on the input itself in JS logic. 
     */
-    .pryce-chip.pryce-disabled {
+    .trm-chip.trm-disabled {
         pointer-events: auto !important; /* Allow click to trigger toast */
     }
-    .pryce-input.pryce-disabled {
+    .trm-input.trm-disabled {
         pointer-events: auto !important;
         background: #f3f4f6;
     }
-    .pryce-send-btn.pryce-disabled {
+    .trm-send-btn.trm-disabled {
         pointer-events: auto !important;
     }
 
-    .pryce-faq-btn {
+    .trm-faq-btn {
         opacity: 1;
         transition: opacity 0.2s;
     }
-    .pryce-faq-btn.pryce-disabled {
+    .trm-faq-btn.trm-disabled {
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: auto !important; /* Capture click */
     }
 
     /* Country Picker */
-    .pryce-phone-group {
+    .trm-phone-group {
       display: flex;
       gap: 8px;
       position: relative;
     }
-    .pryce-country-trigger {
+    .trm-country-trigger {
       display: flex;
       align-items: center;
       gap: 6px;
       padding: 10px 12px;
-      border: 1px solid var(--pryce-border);
+      border: 1px solid var(--trm-border);
       border-radius: 8px;
       background: #fff;
       cursor: pointer;
@@ -526,27 +526,27 @@
       justify-content: space-between;
       transition: border-color 0.2s;
     }
-    .pryce-country-trigger:hover {
-      border-color: var(--pryce-primary);
+    .trm-country-trigger:hover {
+      border-color: var(--trm-primary);
     }
-    .pryce-country-flag {
+    .trm-country-flag {
       font-size: 18px;
       line-height: 1;
       color: #374151;
     }
-    .pryce-country-code-text {
+    .trm-country-code-text {
       font-size: 14px;
       font-weight: 500;
       color: #374151;
     }
-    .pryce-country-dropdown {
+    .trm-country-dropdown {
       position: absolute;
       top: 100%;
       left: 0;
       width: 280px;
       max-height: 240px;
       background: #fff;
-      border: 1px solid var(--pryce-border);
+      border: 1px solid var(--trm-border);
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       display: none;
@@ -554,17 +554,17 @@
       z-index: 1000;
       overflow: hidden;
       margin-top: 6px;
-      animation: pryce-fade-in-up 0.2s ease-out;
+      animation: trm-fade-in-up 0.2s ease-out;
     }
-    .pryce-country-dropdown.open {
+    .trm-country-dropdown.open {
       display: flex;
     }
-    .pryce-country-search {
+    .trm-country-search {
       padding: 10px;
       border-bottom: 1px solid #f3f4f6;
       background: #fafafa;
     }
-    .pryce-country-search input {
+    .trm-country-search input {
       width: 100%;
       padding: 8px 12px;
       border: 1px solid #e5e7eb;
@@ -572,15 +572,15 @@
       font-size: 13px;
       outline: none;
     }
-    .pryce-country-search input:focus {
-      border-color: var(--pryce-primary);
+    .trm-country-search input:focus {
+      border-color: var(--trm-primary);
     }
-    .pryce-country-list {
+    .trm-country-list {
       overflow-y: auto;
       flex: 1;
       padding: 4px 0;
     }
-    .pryce-country-option {
+    .trm-country-option {
       padding: 8px 16px;
       display: flex;
       align-items: center;
@@ -590,29 +590,29 @@
       color: #374151;
       transition: background 0.1s;
     }
-    .pryce-country-option:hover {
+    .trm-country-option:hover {
       background: #f3f4f6;
     }
-    .pryce-country-option.selected {
+    .trm-country-option.selected {
       background: #f0fdf4;
       color: #166534;
     }
-    .pryce-country-option-flag {
+    .trm-country-option-flag {
       font-size: 18px;
     }
-    .pryce-country-option-name {
+    .trm-country-option-name {
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .pryce-country-option-dial {
+    .trm-country-option-dial {
       color: #9ca3af;
       font-size: 12px;
     }
 
     /* Modal Overlay */
-    .pryce-modal-overlay {
+    .trm-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -627,11 +627,11 @@
       visibility: hidden;
       transition: opacity 0.3s;
     }
-    .pryce-modal-overlay.open {
+    .trm-modal-overlay.open {
       opacity: 1;
       visibility: visible;
     }
-    .pryce-modal-content {
+    .trm-modal-content {
       background: white;
       width: 90%;
       max-width: 800px; /* Comfortable reading width */
@@ -644,10 +644,10 @@
       transform: scale(0.95);
       transition: transform 0.3s;
     }
-    .pryce-modal-overlay.open .pryce-modal-content {
+    .trm-modal-overlay.open .trm-modal-content {
       transform: scale(1);
     }
-    .pryce-modal-close {
+    .trm-modal-close {
       position: absolute;
       top: -12px;
       right: -12px;
@@ -666,11 +666,11 @@
       color: #ef4444; /* Red X */
       transition: all 0.2s;
     }
-    .pryce-modal-close:hover {
+    .trm-modal-close:hover {
       background: #fef2f2;
       transform: scale(1.1);
     }
-    .pryce-modal-iframe {
+    .trm-modal-iframe {
       flex: 1;
       width: 100%;
       height: 100%;
@@ -700,8 +700,8 @@
 
   // Icons
   const ICONS = {
-    chat: `<svg class="pryce-launcher-icon pryce-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>`,
-    close: `<svg class="pryce-launcher-icon pryce-icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>`,
+    chat: `<svg class="trm-launcher-icon trm-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>`,
+    close: `<svg class="trm-launcher-icon trm-icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>`,
     send: `<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>`,
     headerClose: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`
   };
@@ -723,26 +723,26 @@
 
   function createWidgetDOM() {
     container = document.createElement('div');
-    container.id = 'pryce-widget-container';
+    container.id = 'trm-widget-container';
 
     // Chat Panel
     panel = document.createElement('div');
-    panel.className = 'pryce-panel';
+    panel.className = 'trm-panel';
     panel.innerHTML = `
-      <div class="pryce-header">
-        <h3 class="pryce-title">${CONFIG.TITLE}</h3>
-        <button class="pryce-icon-header-close" id="pryce-close-btn">${ICONS.headerClose}</button>
+      <div class="trm-header">
+        <h3 class="trm-title">${CONFIG.TITLE}</h3>
+        <button class="trm-icon-header-close" id="trm-close-btn">${ICONS.headerClose}</button>
       </div>
-      <div class="pryce-messages"></div>
-      <div class="pryce-footer">
-        <input type="text" class="pryce-input" placeholder="Type a message..." />
-        <button class="pryce-send-btn">${ICONS.send}</button>
+      <div class="trm-messages"></div>
+      <div class="trm-footer">
+        <input type="text" class="trm-input" placeholder="Type a message..." />
+        <button class="trm-send-btn">${ICONS.send}</button>
       </div>
     `;
 
     // Launcher
     launcher = document.createElement('div');
-    launcher.className = 'pryce-launcher';
+    launcher.className = 'trm-launcher';
     launcher.setAttribute('role', 'button');
     launcher.setAttribute('aria-label', 'Chat with us');
     launcher.innerHTML = `${ICONS.chat}${ICONS.close}`;
@@ -752,15 +752,15 @@
     document.body.appendChild(container);
 
     // Cache refs
-    messagesList = panel.querySelector('.pryce-messages');
-    inputField = panel.querySelector('.pryce-input');
-    sendBtn = panel.querySelector('.pryce-send-btn');
+    messagesList = panel.querySelector('.trm-messages');
+    inputField = panel.querySelector('.trm-input');
+    sendBtn = panel.querySelector('.trm-send-btn');
   }
 
   function setupEventListeners() {
     // Toggle Chat
     launcher.addEventListener('click', () => toggleChat());
-    panel.querySelector('#pryce-close-btn').addEventListener('click', () => toggleChat(false));
+    panel.querySelector('#trm-close-btn').addEventListener('click', () => toggleChat(false));
 
 
 
@@ -797,11 +797,11 @@
 
   function showToast(text) {
     // Remove existing
-    const existing = document.querySelector('.pryce-toast');
+    const existing = document.querySelector('.trm-toast');
     if (existing) existing.remove();
 
     const toast = document.createElement('div');
-    toast.className = 'pryce-toast';
+    toast.className = 'trm-toast';
     toast.textContent = text;
 
     // We append to panel so it shows over messages but inside the widget
@@ -832,9 +832,9 @@
     STATE.isOpen = nextState;
 
     if (STATE.isOpen) {
-      launcher.classList.add('pryce-open');
-      launcher.classList.remove('pryce-pulse'); // Stop pulsing when open
-      panel.classList.add('pryce-visible');
+      launcher.classList.add('trm-open');
+      launcher.classList.remove('trm-pulse'); // Stop pulsing when open
+      panel.classList.add('trm-visible');
 
       // Focus input after transition
       setTimeout(() => inputField.focus(), 300);
@@ -847,8 +847,8 @@
         renderQuickActions();
       }
     } else {
-      launcher.classList.remove('pryce-open');
-      panel.classList.remove('pryce-visible');
+      launcher.classList.remove('trm-open');
+      panel.classList.remove('trm-visible');
       // Resume pulse if idle for a bit? (Optional, requirement says "idle", usually means hasn't been opened)
       // We'll restart pulse logic just in case
       startPulseAnimation();
@@ -861,7 +861,7 @@
     // Pulse every 2 seconds interval (continuous with 2s animation)
     const pulse = () => {
       if (!STATE.isOpen) {
-        launcher.classList.add('pryce-pulse');
+        launcher.classList.add('trm-pulse');
         // No removal needed for continuous looping since CSS is infinite
       }
     };
@@ -873,7 +873,7 @@
 
   function addMessage({ text, type, isHTML = false }) {
     const msgEl = document.createElement('div');
-    msgEl.className = `pryce-message pryce-${type}`;
+    msgEl.className = `trm-message trm-${type}`;
 
     if (isHTML) {
       msgEl.innerHTML = text; // Only used for internal safe content
@@ -892,7 +892,7 @@
 
   function renderQuickActions() {
     const chipsContainer = document.createElement('div');
-    chipsContainer.className = 'pryce-chips pryce-message pryce-bot';
+    chipsContainer.className = 'trm-chips trm-message trm-bot';
     chipsContainer.style.background = 'transparent';
     chipsContainer.style.padding = '0';
     chipsContainer.style.maxWidth = '100%';
@@ -905,7 +905,7 @@
 
     actions.forEach(action => {
       const chip = document.createElement('button');
-      chip.className = 'pryce-chip';
+      chip.className = 'trm-chip';
       chip.textContent = action.label;
       chip.onclick = () => {
         if (!handleInteractionCheck({ preventDefault: () => { }, stopPropagation: () => { } })) return;
@@ -976,7 +976,7 @@
       if (leaveFlag) {
         // If no text was sent by AI, provide a courteous default transition
         if (!messageShown) {
-          addMessage({ text: "#1F2937", type: "bot" });
+          addMessage({ text: "Please provide your details below so we can assist you better:", type: "bot" });
         }
         setTimeout(() => handleShowLeadForm(), 400);
         return; // Success path (form triggered)
@@ -985,7 +985,7 @@
       // If no text and no form, then it's an error
       if (!messageShown) {
         addMessage({
-          text: "#1F2937",
+          text: "Sorry, I’m not getting a reply right now. Please try again, or tap ‘Leave a message’ so our team can follow up.",
           type: "bot",
         });
       }
@@ -993,7 +993,7 @@
     } catch (err) {
       console.error("Error in handleUserMessage:", err);
       stopTypingIndicator();
-      addMessage({ text: "#1F2937", type: "bot" });
+      addMessage({ text: "Something went wrong. Please try again.", type: "bot" });
     } finally {
       // Release lock
       STATE.isProcessing = false;
@@ -1009,15 +1009,15 @@
     stopTypingIndicator();
 
     const typingEl = document.createElement('div');
-    typingEl.className = 'pryce-typing';
-    typingEl.innerHTML = '<div class="pryce-dot"></div><div class="pryce-dot"></div><div class="pryce-dot"></div>';
+    typingEl.className = 'trm-typing';
+    typingEl.innerHTML = '<div class="trm-dot"></div><div class="trm-dot"></div><div class="trm-dot"></div>';
     messagesList.appendChild(typingEl);
     scrollToBottom();
     STATE.isTyping = true;
   }
 
   function stopTypingIndicator() {
-    const existing = messagesList.querySelector('.pryce-typing');
+    const existing = messagesList.querySelector('.trm-typing');
     if (existing) existing.remove();
     STATE.isTyping = false;
   }
@@ -1037,10 +1037,10 @@
   function handleShowFAQs() {
     // Show typing then list FAQs
     localFakeTyping(600).then(() => {
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Here are some common topics:", type: 'bot' });
 
       const faqContainer = document.createElement('div');
-      faqContainer.className = 'pryce-message pryce-bot';
+      faqContainer.className = 'trm-message trm-bot';
       faqContainer.style.background = 'transparent';
       faqContainer.style.padding = '0';
       faqContainer.style.display = 'flex';
@@ -1050,7 +1050,7 @@
 
       CONFIG.FAQ_TOPICS.forEach(topic => {
         const btn = document.createElement('button');
-        btn.className = 'pryce-faq-btn'; // NEW CLASS for styling hooks
+        btn.className = 'trm-faq-btn'; // NEW CLASS for styling hooks
         btn.textContent = topic;
         btn.style.padding = '10px 14px';
         btn.style.border = `1px solid ${CONFIG.THEME.primary}`;
@@ -1100,44 +1100,44 @@
 
     // Append form to messages
     const formContainer = document.createElement('div');
-    formContainer.className = 'pryce-message pryce-bot'; // style like a bot message bubble container
+    formContainer.className = 'trm-message trm-bot'; // style like a bot message bubble container
     formContainer.style.width = '90%';
     formContainer.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div style="font-weight:600;">Leave a message</div>
-                <button type="button" class="pryce-cancel-btn">✕</button>
+                <button type="button" class="trm-cancel-btn">✕</button>
             </div>
           
-            <form class="pryce-form" id="pryce-lead-form">
-                <input class="pryce-form-field" name="name" placeholder="Name *" required />
-                <input class="pryce-form-field" name="email" type="email" placeholder="Email" />
+            <form class="trm-form" id="trm-lead-form">
+                <input class="trm-form-field" name="name" placeholder="Name *" required />
+                <input class="trm-form-field" name="email" type="email" placeholder="Email" />
                 
                 <!-- Custom Phone Input with Country Picker -->
-                <div class="pryce-phone-group">
-                   <div class="pryce-country-trigger" id="pryce-country-trigger">
-                      <span class="pryce-country-flag">${selectedCountry.flag}</span>
-                      <span class="pryce-country-code-text">${selectedCountry.dial}</span>
+                <div class="trm-phone-group">
+                   <div class="trm-country-trigger" id="trm-country-trigger">
+                      <span class="trm-country-flag">${selectedCountry.flag}</span>
+                      <span class="trm-country-code-text">${selectedCountry.dial}</span>
                       <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M1 1L5 5L9 1"/>
                       </svg>
                    </div>
                    <!-- Hidden dropdown -->
-                   <div class="pryce-country-dropdown" id="pryce-country-dropdown">
-                      <div class="pryce-country-search">
-                         <input type="text" placeholder="Search country..." id="pryce-country-search-input">
+                   <div class="trm-country-dropdown" id="trm-country-dropdown">
+                      <div class="trm-country-search">
+                         <input type="text" placeholder="Search country..." id="trm-country-search-input">
                       </div>
-                      <div class="pryce-country-list" id="pryce-country-list">
+                      <div class="trm-country-list" id="trm-country-list">
                          <!-- Options injected via JS -->
                       </div>
                    </div>
 
-                   <input class="pryce-form-field" name="phone_local" type="tel" placeholder="Phone Number" style="flex:1;" />
+                   <input class="trm-form-field" name="phone_local" type="tel" placeholder="Phone Number" style="flex:1;" />
                 </div>
 
-                <textarea class="pryce-form-field" name="enquiry" rows="3" placeholder="How can we help? *" required></textarea>
+                <textarea class="trm-form-field" name="enquiry" rows="3" placeholder="How can we help? *" required></textarea>
                 
-                <div class="pryce-error" id="pryce-form-error">Please fill in required fields and at least one contact method.</div>
-                <button type="submit" class="pryce-form-submit">Send Message</button>
+                <div class="trm-error" id="trm-form-error">Please fill in required fields and at least one contact method.</div>
+                <button type="submit" class="trm-form-submit">Send Message</button>
             </form>
         `;
 
@@ -1145,12 +1145,12 @@
     scrollToBottom();
 
     // -- Picker Logic -- //
-    const trigger = formContainer.querySelector('#pryce-country-trigger');
-    const dropdown = formContainer.querySelector('#pryce-country-dropdown');
-    const searchInput = formContainer.querySelector('#pryce-country-search-input');
-    const list = formContainer.querySelector('#pryce-country-list');
-    const flagSpan = trigger.querySelector('.pryce-country-flag');
-    const codeSpan = trigger.querySelector('.pryce-country-code-text');
+    const trigger = formContainer.querySelector('#trm-country-trigger');
+    const dropdown = formContainer.querySelector('#trm-country-dropdown');
+    const searchInput = formContainer.querySelector('#trm-country-search-input');
+    const list = formContainer.querySelector('#trm-country-list');
+    const flagSpan = trigger.querySelector('.trm-country-flag');
+    const codeSpan = trigger.querySelector('.trm-country-code-text');
 
     function renderCountryList(filterText = '') {
       list.innerHTML = '';
@@ -1160,12 +1160,12 @@
           return;
         }
         const item = document.createElement('div');
-        item.className = 'pryce-country-option';
+        item.className = 'trm-country-option';
         if (c.code === selectedCountry.code) item.classList.add('selected');
         item.innerHTML = `
-          <span class="pryce-country-option-flag">${c.flag}</span>
-          <span class="pryce-country-option-name">${c.name}</span>
-          <span class="pryce-country-option-dial">${c.dial}</span>
+          <span class="trm-country-option-flag">${c.flag}</span>
+          <span class="trm-country-option-name">${c.name}</span>
+          <span class="trm-country-option-dial">${c.dial}</span>
         `;
         item.onclick = () => {
           userInteracted = true;
@@ -1220,17 +1220,17 @@
 
 
     // Bind Cancel
-    const cancelBtn = formContainer.querySelector('.pryce-cancel-btn');
+    const cancelBtn = formContainer.querySelector('.trm-cancel-btn');
     cancelBtn.onclick = () => {
       document.removeEventListener('click', closeDropdown); // Clean up
       formContainer.remove();
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Message cancelled. Is there anything else I can help with?", type: 'bot' });
       endFlow();
       renderQuickActions(); // Show chips again
     };
 
     // Bind submit
-    const form = formContainer.querySelector('#pryce-lead-form');
+    const form = formContainer.querySelector('#trm-lead-form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(form);
@@ -1254,7 +1254,7 @@
       // Validation
       const hasContact = data.email || data.phone;
       if (!data.name || !data.enquiry || !hasContact) {
-        form.querySelector('.pryce-error').classList.add('visible');
+        form.querySelector('.trm-error').classList.add('visible');
         return;
       }
 
@@ -1267,7 +1267,7 @@
 
       localFakeTyping(600).then(() => {
         addMessage({
-          text: "#1F2937",
+          text: "Thanks — we’ve received your message and will follow up soon.",
           type: 'bot'
         });
         sendLeadToBackend(data);
@@ -1282,58 +1282,58 @@
 
   function toggleInputLock(locked) {
     // Toggle opacity classes on Chips too
-    const allChips = messagesList.querySelectorAll('.pryce-chip, .pryce-chip-like'); // Add custom selector for FAQ buttons if needed
-    // Assuming FAQ buttons are not .pryce-chip, let's target them generically or add class
+    const allChips = messagesList.querySelectorAll('.trm-chip, .trm-chip-like'); // Add custom selector for FAQ buttons if needed
+    // Assuming FAQ buttons are not .trm-chip, let's target them generically or add class
     // In handleShowFAQs they are just buttons. 
-    // Let's rely on global .pryce-disabled usage:
+    // Let's rely on global .trm-disabled usage:
 
     if (locked) {
       // Disable Inputs
-      inputField.classList.add('pryce-disabled');
+      inputField.classList.add('trm-disabled');
       // Remove 'disabled' attribute so we can catch clicks
       inputField.removeAttribute('disabled');
       inputField.readOnly = true; // Prevent typing but allow focus/click
 
       // Disable Send
-      sendBtn.classList.add('pryce-disabled');
+      sendBtn.classList.add('trm-disabled');
       sendBtn.disabled = true; // Actually we want to capture click on button too?
       // If disabled=true, button doesn't fire click events in some browsers. 
       // Better to remove disabled attribute and use class + onClick check.
       sendBtn.removeAttribute('disabled');
 
       // Chips
-      document.querySelectorAll('.pryce-chip').forEach(el => el.classList.add('pryce-disabled'));
+      document.querySelectorAll('.trm-chip').forEach(el => el.classList.add('trm-disabled'));
 
       // FAQ buttons (manually styled in handleShowFAQs), we'll add a helper class there if possible, 
       // OR just iterate all buttons in messagesList?
-      // Let's do a broad sweep or add 'pryce-disabled' to them.
+      // Let's do a broad sweep or add 'trm-disabled' to them.
       // Since we didn't add a class to FAQ buttons in handleShowFAQs, let's grab them by tag/style or update handleShowFAQs to add a class.
       // For now, let's leave FAQ visual updates for a more robust pass if needed, 
       // OR we can querySelect all buttons inside messagesList that are not in the active form.
       messagesList.querySelectorAll('button').forEach(btn => {
         // Don't disable the form buttons themselves
-        if (!btn.closest('.pryce-form, .pryce-message.pryce-bot')) {
+        if (!btn.closest('.trm-form, .trm-message.trm-bot')) {
           // This is tricky selector logic. 
-          // Simplest: .pryce-chip handled. FAQ buttons need class.
+          // Simplest: .trm-chip handled. FAQ buttons need class.
         }
-        if (btn.classList.contains('pryce-chip')) {
-          btn.classList.add('pryce-disabled');
+        if (btn.classList.contains('trm-chip')) {
+          btn.classList.add('trm-disabled');
         }
         // If it's an FAQ button (detected by inline style or context)
-        // We'll update handleShowFAQs to add a class 'pryce-faq-btn' next time?
+        // We'll update handleShowFAQs to add a class 'trm-faq-btn' next time?
         // For now, let's just make sure Chips + Input are covered as main requirement.
       });
 
       // FAQ Buttons
-      document.querySelectorAll('.pryce-faq-btn').forEach(el => el.classList.add('pryce-disabled'));
+      document.querySelectorAll('.trm-faq-btn').forEach(el => el.classList.add('trm-disabled'));
     } else {
-      inputField.classList.remove('pryce-disabled');
+      inputField.classList.remove('trm-disabled');
       inputField.readOnly = false;
 
-      sendBtn.classList.remove('pryce-disabled');
+      sendBtn.classList.remove('trm-disabled');
 
-      document.querySelectorAll('.pryce-chip').forEach(el => el.classList.remove('pryce-disabled'));
-      document.querySelectorAll('.pryce-faq-btn').forEach(el => el.classList.remove('pryce-disabled'));
+      document.querySelectorAll('.trm-chip').forEach(el => el.classList.remove('trm-disabled'));
+      document.querySelectorAll('.trm-faq-btn').forEach(el => el.classList.remove('trm-disabled'));
 
       setTimeout(() => inputField.focus(), 100);
     }
@@ -1351,16 +1351,16 @@
 
     // Create Modal DOM
     const overlay = document.createElement('div');
-    overlay.className = 'pryce-modal-overlay';
+    overlay.className = 'trm-modal-overlay';
 
     // Accessibility
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
 
     overlay.innerHTML = `
-      <div class="pryce-modal-content">
-        <button class="pryce-modal-close" aria-label="Close booking">✕</button>
-        <iframe src="${bookingUrl}" class="pryce-modal-iframe" title="Booking Calendar"></iframe>
+      <div class="trm-modal-content">
+        <button class="trm-modal-close" aria-label="Close booking">✕</button>
+        <iframe src="${bookingUrl}" class="trm-modal-iframe" title="Booking Calendar"></iframe>
       </div>
     `;
 
@@ -1383,7 +1383,7 @@
     });
 
     // Close logic
-    const closeBtn = overlay.querySelector('.pryce-modal-close');
+    const closeBtn = overlay.querySelector('.trm-modal-close');
     const close = () => {
       window.removeEventListener('blur', onFocusListener); // Cleanup
       overlay.classList.remove('open');
@@ -1406,7 +1406,7 @@
     };
 
     // Inform user in chat (optional)
-    addMessage({ text: "#1F2937", type: 'bot' });
+    addMessage({ text: "I've opened the booking calendar for you.", type: 'bot' });
   }
 
   /* LEGACY BOOKING LOGIC (COMMENTED OUT)
@@ -1416,14 +1416,14 @@
     toggleInputLock(true);
 
     localFakeTyping(600).then(() => {
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Please select a date for your appointment:", type: 'bot' });
       renderCalendar();
     });
   }
 
   function renderCalendar() {
     const calendarContainer = document.createElement('div');
-    calendarContainer.className = 'pryce-message pryce-bot'; // Bubble style
+    calendarContainer.className = 'trm-message trm-bot'; // Bubble style
     calendarContainer.style.background = 'white';
     calendarContainer.style.padding = '12px';
     calendarContainer.style.width = '100%';
@@ -1436,11 +1436,11 @@
     headerRow.style.display = 'flex';
     headerRow.style.justifyContent = 'flex-end';
     const cancelBtn = document.createElement('button');
-    cancelBtn.className = 'pryce-cancel-btn';
+    cancelBtn.className = 'trm-cancel-btn';
     cancelBtn.textContent = '✕';
     cancelBtn.onclick = () => {
       calendarContainer.remove();
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Booking cancelled. Is there anything else I can help with?", type: 'bot' });
       endFlow();
       renderQuickActions();
     };
@@ -1590,7 +1590,7 @@
 
     setTimeout(() => {
       localFakeTyping(600).then(() => {
-        addMessage({ text: "#1F2937", type: 'bot' });
+        addMessage({ text: "Here are the available times (in your timezone):", type: 'bot' });
         renderTimeSlots(year, month, day);
       });
     }, 1000);
@@ -1598,7 +1598,7 @@
 
   function renderTimeSlots(year, month, day) {
     const slotsContainer = document.createElement('div');
-    slotsContainer.className = 'pryce-message pryce-bot';
+    slotsContainer.className = 'trm-message trm-bot';
     slotsContainer.style.background = 'transparent';
     slotsContainer.style.padding = '0';
     slotsContainer.style.display = 'flex';
@@ -1628,7 +1628,7 @@
         const localStr = targetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const btn = document.createElement('button');
         btn.textContent = localStr;
-        btn.className = 'pryce-chip';
+        btn.className = 'trm-chip';
         btn.style.margin = '0';
 
         btn.onclick = () => {
@@ -1651,7 +1651,7 @@
     addMessage({ text: `I'd like to book for ${timeStr}`, type: 'user' });
 
     localFakeTyping(600).then(() => {
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Great — please confirm your details so we can book this for you.", type: 'bot' });
       renderBookingForm(year, month, day, timeStr, fullDate);
     });
   }
@@ -1661,47 +1661,47 @@
     let selectedCountry = COUNTRIES.find(c => c.code === 'US') || COUNTRIES[0];
 
     const formContainer = document.createElement('div');
-    formContainer.className = 'pryce-message pryce-bot';
+    formContainer.className = 'trm-message trm-bot';
     formContainer.style.width = '90%';
     formContainer.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <div style="font-weight:600;">Confirm Booking</div>
-            <button type="button" class="pryce-cancel-btn">✕</button>
+            <button type="button" class="trm-cancel-btn">✕</button>
         </div>
         <div style="font-size:13px; color:#666; margin-bottom:12px;">
             ${new Date(year, month, day).toLocaleDateString()} at ${timeStr}
         </div>
       
-        <form class="pryce-form" id="pryce-booking-form">
-            <input class="pryce-form-field" name="name" placeholder="Name *" required />
-            <input class="pryce-form-field" name="email" type="email" placeholder="Email" />
+        <form class="trm-form" id="trm-booking-form">
+            <input class="trm-form-field" name="name" placeholder="Name *" required />
+            <input class="trm-form-field" name="email" type="email" placeholder="Email" />
             
             <!-- Custom Phone Input with Country Picker -->
-            <div class="pryce-phone-group">
-               <div class="pryce-country-trigger" id="pryce-country-trigger-booking">
-                  <span class="pryce-country-flag">${selectedCountry.flag}</span>
-                  <span class="pryce-country-code-text">${selectedCountry.dial}</span>
+            <div class="trm-phone-group">
+               <div class="trm-country-trigger" id="trm-country-trigger-booking">
+                  <span class="trm-country-flag">${selectedCountry.flag}</span>
+                  <span class="trm-country-code-text">${selectedCountry.dial}</span>
                   <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 1L5 5L9 1"/>
                   </svg>
                </div>
                <!-- Hidden dropdown -->
-               <div class="pryce-country-dropdown" id="pryce-country-dropdown-booking">
-                  <div class="pryce-country-search">
-                     <input type="text" placeholder="Search country..." id="pryce-country-search-input-booking">
+               <div class="trm-country-dropdown" id="trm-country-dropdown-booking">
+                  <div class="trm-country-search">
+                     <input type="text" placeholder="Search country..." id="trm-country-search-input-booking">
                   </div>
-                  <div class="pryce-country-list" id="pryce-country-list-booking">
+                  <div class="trm-country-list" id="trm-country-list-booking">
                      <!-- Options injected via JS -->
                   </div>
                </div>
 
-               <input class="pryce-form-field" name="phone_local" type="tel" placeholder="Phone Number" style="flex:1;" />
+               <input class="trm-form-field" name="phone_local" type="tel" placeholder="Phone Number" style="flex:1;" />
             </div>
 
-            <textarea class="pryce-form-field" name="notes" rows="2" placeholder="Notes (optional)"></textarea>
+            <textarea class="trm-form-field" name="notes" rows="2" placeholder="Notes (optional)"></textarea>
             
-            <div class="pryce-error" id="pryce-booking-error">Please provide Name and at least one contact method.</div>
-            <button type="submit" class="pryce-form-submit">Confirm Booking</button>
+            <div class="trm-error" id="trm-booking-error">Please provide Name and at least one contact method.</div>
+            <button type="submit" class="trm-form-submit">Confirm Booking</button>
         </form>
     `;
 
@@ -1709,12 +1709,12 @@
     scrollToBottom();
 
     // -- Picker Logic (Duplicate logic, scoped to this container) -- //
-    const trigger = formContainer.querySelector('#pryce-country-trigger-booking');
-    const dropdown = formContainer.querySelector('#pryce-country-dropdown-booking');
-    const searchInput = formContainer.querySelector('#pryce-country-search-input-booking');
-    const list = formContainer.querySelector('#pryce-country-list-booking');
-    const flagSpan = trigger.querySelector('.pryce-country-flag');
-    const codeSpan = trigger.querySelector('.pryce-country-code-text');
+    const trigger = formContainer.querySelector('#trm-country-trigger-booking');
+    const dropdown = formContainer.querySelector('#trm-country-dropdown-booking');
+    const searchInput = formContainer.querySelector('#trm-country-search-input-booking');
+    const list = formContainer.querySelector('#trm-country-list-booking');
+    const flagSpan = trigger.querySelector('.trm-country-flag');
+    const codeSpan = trigger.querySelector('.trm-country-code-text');
 
     function renderCountryList(filterText = '') {
       list.innerHTML = '';
@@ -1724,12 +1724,12 @@
           return;
         }
         const item = document.createElement('div');
-        item.className = 'pryce-country-option';
+        item.className = 'trm-country-option';
         if (c.code === selectedCountry.code) item.classList.add('selected');
         item.innerHTML = `
-          <span class="pryce-country-option-flag">${c.flag}</span>
-          <span class="pryce-country-option-name">${c.name}</span>
-          <span class="pryce-country-option-dial">${c.dial}</span>
+          <span class="trm-country-option-flag">${c.flag}</span>
+          <span class="trm-country-option-name">${c.name}</span>
+          <span class="trm-country-option-dial">${c.dial}</span>
         `;
         item.onclick = () => {
           selectedCountry = c;
@@ -1766,17 +1766,17 @@
 
 
     // Bind Cancel
-    const cancelBtn = formContainer.querySelector('.pryce-cancel-btn');
+    const cancelBtn = formContainer.querySelector('.trm-cancel-btn');
     cancelBtn.onclick = () => {
       document.removeEventListener('click', closeDropdown);
       formContainer.remove();
-      addMessage({ text: "#1F2937", type: 'bot' });
+      addMessage({ text: "Booking cancelled. Is there anything else I can help with?", type: 'bot' });
       endFlow();
       renderQuickActions();
     };
 
     // Bind Submit
-    const form = formContainer.querySelector('#pryce-booking-form');
+    const form = formContainer.querySelector('#trm-booking-form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(form);
@@ -1799,7 +1799,7 @@
       // Validation
       const hasContact = data.email || data.phone;
       if (!data.name || !hasContact) {
-        form.querySelector('.pryce-error').classList.add('visible');
+        form.querySelector('.trm-error').classList.add('visible');
         return;
       }
 
@@ -1820,7 +1820,7 @@
 
       localFakeTyping(600).then(() => {
         addMessage({
-          text: "#1F2937",
+          text: "Perfect! I've scheduled that for you. You'll receive a confirmation shortly.",
           type: 'bot'
         });
 
@@ -1850,11 +1850,11 @@
      ========================================================================== */
 
   function getSessionId() {
-    if (!window.__PRYCE_CHAT_SESSION_ID__) {
+    if (!window.__TRM_CHAT_SESSION_ID__) {
       // Simple random ID generation
-      window.__PRYCE_CHAT_SESSION_ID__ = 'sess_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+      window.__TRM_CHAT_SESSION_ID__ = 'sess_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
     }
-    return window.__PRYCE_CHAT_SESSION_ID__;
+    return window.__TRM_CHAT_SESSION_ID__;
   }
 
   async function postToN8N(url, payload) {
@@ -1988,4 +1988,3 @@
   }
 
 })();
-

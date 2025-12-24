@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     // Get configuration from environment variables
     const N8N_URL = process.env.N8N_LEAD_WEBHOOK_URL;
-    const API_KEY = process.env.PRYCE_API_KEY;
+    const API_KEY = process.env.TRM_API_KEY;
 
     if (!N8N_URL) {
         console.error('Missing N8N_LEAD_WEBHOOK_URL environment variable');
