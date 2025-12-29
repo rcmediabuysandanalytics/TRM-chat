@@ -681,7 +681,7 @@
     /* Mobile Adjustments */
     @media (max-width: 600px) {
       #trm-widget-container {
-        bottom: 100px;
+        bottom: 70px;
       }
       .trm-panel {
         width: 85vw; /* More responsive than fixed 300px */
