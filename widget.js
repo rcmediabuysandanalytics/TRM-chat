@@ -309,30 +309,56 @@
     .trm-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 0px;
     }
 
     .trm-chip {
-      background: var(--trm-primary);
+      background: transparent;
       border: 1px solid var(--trm-primary);
-      color: #000000;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
+      color: #5D4300; /* Darker gold/brown for better readability/premium feel */
+      padding: 8px 14px;
+      border-radius: 6px; /* Little square box with round corners */
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      letter-spacing: 0.3px;
     }
 
     .trm-chip:hover {
-      background: var(--trm-primary-hover);
-      border-color: var(--trm-primary-hover);
+      background: var(--trm-primary);
+      border-color: var(--trm-primary);
       color: #000000;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* FAQ Buttons (Chip-like style) */
+    .trm-faq-btn {
+      background: transparent;
+      border: 1px solid var(--trm-primary);
+      color: #5D4300;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: fit-content;
+      margin-bottom: 0;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+    }
+
+    .trm-faq-btn:not(.trm-disabled):hover {
+       background: var(--trm-primary);
+       border-color: var(--trm-primary);
+       color: #000000;
+       transform: translateY(-1px);
+       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     /* Input Area */
@@ -681,7 +707,7 @@
     /* Mobile Adjustments */
     @media (max-width: 600px) {
       #trm-widget-container {
-        bottom: 70px;
+        bottom: 100px;
       }
       .trm-panel {
         width: 85vw; /* More responsive than fixed 300px */
@@ -1072,29 +1098,8 @@
         const btn = document.createElement('button');
         btn.className = 'trm-faq-btn'; // NEW CLASS for styling hooks
         btn.textContent = topic;
-        btn.style.padding = '10px 14px';
-        btn.style.border = `1px solid ${CONFIG.THEME.primary}`;
-        btn.style.borderRadius = '8px';
-        btn.style.background = CONFIG.THEME.primary;
-        btn.style.color = '#000000';
-        btn.style.cursor = 'pointer';
-        btn.style.textAlign = 'left';
-        btn.style.fontFamily = 'inherit';
-        btn.style.fontSize = '14px';
-        btn.style.fontWeight = '500';
-        btn.style.transition = 'all 0.2s';
 
-        // Hover effect
-        btn.onmouseover = () => {
-          if (STATE.activeFlow) return;
-          btn.style.background = CONFIG.THEME.primaryHover;
-          btn.style.borderColor = CONFIG.THEME.primaryHover;
-        };
-        btn.onmouseout = () => {
-          if (STATE.activeFlow) return;
-          btn.style.background = CONFIG.THEME.primary;
-          btn.style.borderColor = CONFIG.THEME.primary;
-        };
+        // Inline styles removed in favor of CSS class .trm-faq-btn
 
         btn.onclick = () => {
           if (handleInteractionCheck({ preventDefault: () => { }, stopPropagation: () => { } })) {
