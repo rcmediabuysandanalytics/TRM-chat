@@ -945,7 +945,11 @@
 
     const actions = [
       { label: "FAQs", handler: handleShowFAQs },
-      { label: "Book Appointment", handler: handleBookAppointment },
+      {
+        label: "Book Appointment",
+        handler: () => showToast("This will be updated soon."),
+        isUnderConstruction: true
+      },
       { label: "Leave a message", handler: handleShowLeadForm }
     ];
 
@@ -953,6 +957,15 @@
       const chip = document.createElement('button');
       chip.className = 'trm-chip';
       chip.textContent = action.label;
+
+      if (action.isUnderConstruction) {
+        chip.style.setProperty('opacity', '0.6', 'important');
+        chip.style.setProperty('border-color', '#9ca3af', 'important');
+        chip.style.setProperty('color', '#6b7280', 'important');
+        chip.style.setProperty('background', 'transparent', 'important');
+        chip.style.setProperty('box-shadow', 'none', 'important');
+      }
+
       chip.onclick = () => {
         if (!handleInteractionCheck({ preventDefault: () => { }, stopPropagation: () => { } })) return;
         action.handler();
