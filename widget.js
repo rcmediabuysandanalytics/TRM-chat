@@ -681,11 +681,20 @@
     /* Mobile Adjustments */
     @media (max-width: 600px) {
       #trm-widget-container {
-        bottom: 30px;
+        bottom: 100px;
       }
       .trm-panel {
-        width: 300px;
-        height: 450px;
+        width: 85vw; /* More responsive than fixed 300px */
+        max-width: 300px; /* Cap at 300px */
+        height: 500px; /* Slightly shorter */
+      }
+      .trm-launcher {
+        width: 50px;
+        height: 50px;
+      }
+      .trm-launcher-icon {
+        width: 24px;
+        height: 24px;
       }
     }
 
