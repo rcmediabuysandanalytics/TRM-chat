@@ -678,6 +678,17 @@
       border-radius: 12px;
     }
 
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+      #trm-widget-container {
+        bottom: 30px;
+      }
+      .trm-panel {
+        width: 300px;
+        height: 450px;
+      }
+    }
+
   `;
 
   /* ==========================================================================
